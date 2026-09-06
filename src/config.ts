@@ -1,0 +1,25 @@
+export const EVENT = {
+  couple: "Smit & Divya",
+  title: "Divya's babyshower",
+  date: "Sunday, October 25, 2026",
+  time: "10:00 AM",
+//   venue: "",
+  location: "Gardena, California",
+  address: "Gardena, CA",
+  mapsUrl: "",
+  rsvpDeadline: "September 25, 2026",
+
+  // Paste your deployed Google Apps Script Web App URL here.
+  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbxQm2exKKdvR-O9v4wMxMLgZo6oR4PdYnAxTM_spUxOi915L_43FKPcghBMehFqfxPfXg/exec",
+
+  // Optional. Set to true if you want guests to enter an invitation code.
+  requireInviteCode: true,
+
+  // Optional hero image. Put a file in public/hero.jpg and change this to "/rsvp/hero.jpg".
+  heroImage: "/rsvp/hero.jpg"
+};
+
+export const MEAL_OPTIONS = [
+  "Vegetarian",
+  "Other / I'll let you know"
+];
