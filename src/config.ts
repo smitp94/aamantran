@@ -9,7 +9,7 @@ export const EVENT = {
   rsvpDeadline: "September 25, 2026",
 
   // Paste your deployed Google Apps Script Web App URL here.
-  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbyJoUcmDeZOhS6gE3vuO-QnCphMhMymgwoYf-yNXmGiQ_i2ugtIXm3pU2HGHx04O6pU-A/exec",
+  rsvpEndpoint: "https://script.google.com/macros/s/AKfycby7HLM-ZC0hBDCY0Cze_yobYxHhoM_d3vZIKtFK3kp2YHPJ5xdQfidgIsfcpEpyP69p7A/exec",
 
   // Optional. Set to true if you want guests to enter an invitation code.
   requireInviteCode: true,
