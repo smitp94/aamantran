@@ -124,7 +124,6 @@ function App() {
         <div className="details">
           <div><CalendarDays /><span><b>{EVENT.date}</b><small>{EVENT.rsvpDeadline && `RSVP by ${EVENT.rsvpDeadline}`}</small></span></div>
           <div><Clock3 /><span><b>{EVENT.time}</b><small>Ceremony & celebration</small></span></div>
-          {/* <div><MapPin /><span><b>{EVENT.venue}</b><small>{EVENT.location}</small></span></div> */}
         </div>
 
         <div className="intro">
@@ -206,14 +205,6 @@ function App() {
           </button>
         </form>
 
-        <div className="venue">
-          <div className="venue-icon"><Users /></div>
-          <div>
-            <h3>{EVENT.venue}</h3>
-            <p>{EVENT.address}</p>
-            <a href={EVENT.mapsUrl} target="_blank" rel="noreferrer">Get directions →</a>
-          </div>
-        </div>
       </section>
 
       <footer>Made with love · {EVENT.couple}</footer>

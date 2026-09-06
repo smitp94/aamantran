@@ -3,7 +3,6 @@ export const EVENT = {
   title: "Divya's babyshower",
   date: "Sunday, October 25, 2026",
   time: "10:00 AM",
-//   venue: "",
   location: "Gardena, California",
   address: "Gardena, CA",
   mapsUrl: "",
