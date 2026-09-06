@@ -4,6 +4,10 @@
 #
 name: Deploy Next.js site to Pages
 
+env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true # Temporarily forces the runner back to Node 20
+
+
 on:
   # Runs on pushes targeting the default branch
   push:
