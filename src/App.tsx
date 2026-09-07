@@ -42,8 +42,9 @@ function App() {
     const existingData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (existingData) {
       try {
-        const parsed = JSON.parse(existingData);
+        const parsed: FormState = JSON.parse(existingData);
         setSavedRsvp(parsed);
+        setForm(parsed); // Pre-fill form state with existing data
         setSubmitted(true);
       } catch (err) {
         console.error("Failed to parse saved RSVP:", err);
@@ -58,6 +59,13 @@ function App() {
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  function handleEdit() {
+    if (savedRsvp) {
+      setForm(savedRsvp);
+    }
+    setSubmitted(false);
   }
 
   async function submitRsvp(event: FormEvent) {
@@ -82,7 +90,7 @@ function App() {
       guestNames: form.attendance === "yes" && guestCount > 1 ? form.guestNames.trim() : "",
       meal: form.attendance === "yes" ? form.meal : "",
       dietary: form.attendance === "yes" ? form.dietary.trim() : "",
-      submittedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString()
     };
 
     try {
@@ -105,12 +113,12 @@ function App() {
         }
       }
 
-      // Store form data locally to prevent re-submission
+      // Store updated form data locally
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(form));
       setSavedRsvp(form);
       setSubmitted(true);
     } catch {
-      setError("Something went wrong while sending your RSVP. Please try again.");
+      setError("Something went wrong while updating your RSVP. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -168,10 +176,15 @@ function App() {
               {displayData.message && <p><strong>Message:</strong> {displayData.message}</p>}
             </div>
 
-            <div className="edit-notice">
-              <Edit3 size={18} />
-              <span>Need to change your response? Please contact the hosts directly.</span>
-            </div>
+            <button 
+              type="button" 
+              className="button secondary-button" 
+              onClick={handleEdit}
+              style={{ marginTop: "1.5rem" }}
+            >
+              <Edit3 size={16} style={{ marginRight: "0.5rem" }} />
+              Edit Response
+            </button>
           </div>
         </section>
 
@@ -203,7 +216,7 @@ function App() {
 
         <div className="intro">
           <p className="eyebrow">Please join us</p>
-          <h2>Kindly RSVP below</h2>
+          <h2>{savedRsvp ? "Update your RSVP" : "Kindly RSVP below"}</h2>
           <p>We would love to celebrate this special day with you. Please submit one RSVP per invitation.</p>
         </div>
 
@@ -276,7 +289,7 @@ function App() {
           {error && <div className="error">{error}</div>}
 
           <button className="button" disabled={submitting}>
-            {submitting ? "Sending..." : "Send RSVP"}
+            {submitting ? "Updating..." : savedRsvp ? "Update RSVP" : "Send RSVP"}
           </button>
         </form>
       </section>
