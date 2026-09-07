@@ -15,7 +15,7 @@ export const EVENT = {
   requireInviteCode: true,
 
   // Optional hero image. Put a file in public/hero.jpg and change this to "/rsvp/hero.jpg".
-  heroImage: "/rsvp/hero.jpeg"
+  heroImage: "/aamantran/hero1.jpg"
 };
 
 export const MEAL_OPTIONS = [
