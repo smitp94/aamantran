@@ -44,44 +44,52 @@ function App() {
   }
 
   async function submitRsvp(event: FormEvent) {
-    event.preventDefault();
-    setError("");
+  event.preventDefault();
+  setError("");
 
-    if (!form.name.trim()) return setError("Please enter your name.");
-    if (!form.attendance) return setError("Please tell us whether you can attend.");
-    if (EVENT.requireInviteCode && !form.inviteCode.trim()) {
-      return setError("Please enter your invitation code.");
-    }
-
-    setSubmitting(true);
-
-    const payload = {
-      ...form,
-      guests: form.attendance === "yes" ? guestCount : 0,
-      submittedAt: new Date().toISOString()
-    };
-
-    try {
-      if (EVENT.rsvpEndpoint === "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") {
-        // Demo mode: allows you to preview the site before connecting a backend.
-        await new Promise((resolve) => setTimeout(resolve, 700));
-        console.log("RSVP demo submission:", payload);
-      } else {
-        await fetch(EVENT.rsvpEndpoint, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-      }
-
-      setSubmitted(true);
-    } catch {
-      setError("Something went wrong while sending your RSVP. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+  if (!form.name.trim()) return setError("Please enter your name.");
+  if (!form.attendance) return setError("Please tell us whether you can attend.");
+  if (EVENT.requireInviteCode && !form.inviteCode.trim()) {
+    return setError("Please enter your invitation code.");
   }
+
+  setSubmitting(true);
+
+  const payload = {
+    ...form,
+    guests: form.attendance === "yes" ? guestCount : 0,
+    submittedAt: new Date().toISOString()
+  };
+
+  try {
+    if (EVENT.rsvpEndpoint === "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") {
+      // Demo mode: allows you to preview the site before connecting a backend.
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      console.log("RSVP demo submission:", payload);
+      setSubmitted(true);
+    } else {
+      // Send standard POST request without 'no-cors'
+      const response = await fetch(EVENT.rsvpEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        // Set error message directly from Google Apps Script response
+        setError(result.message || "Invalid invitation code. Please try again.");
+      }
+    }
+  } catch {
+    setError("Something went wrong while sending your RSVP. Please try again.");
+  } finally {
+    setSubmitting(false);
+  }
+}
 
   if (submitted) {
     return (
