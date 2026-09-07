@@ -1,5 +1,5 @@
-import { FormEvent, useMemo, useState } from "react";
-import { CalendarDays, Check, Clock3, Heart, MapPin, Users } from "lucide-react";
+import { FormEvent, useMemo, useState, useEffect } from "react";
+import { CalendarDays, Check, Clock3, Heart, Users, Edit3 } from "lucide-react";
 import { EVENT, MEAL_OPTIONS } from "./config";
 
 type Attendance = "yes" | "no" | "";
@@ -28,11 +28,28 @@ const initialForm: FormState = {
   inviteCode: ""
 };
 
+const LOCAL_STORAGE_KEY = "user_rsvp_data";
+
 function App() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [savedRsvp, setSavedRsvp] = useState<FormState | null>(null);
+
+  // Load existing RSVP from local storage on load
+  useEffect(() => {
+    const existingData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (existingData) {
+      try {
+        const parsed = JSON.parse(existingData);
+        setSavedRsvp(parsed);
+        setSubmitted(true);
+      } catch (err) {
+        console.error("Failed to parse saved RSVP:", err);
+      }
+    }
+  }, []);
 
   const guestCount = useMemo(
     () => Math.max(1, Math.min(10, Number(form.guests) || 1)),
@@ -44,84 +61,126 @@ function App() {
   }
 
   async function submitRsvp(event: FormEvent) {
-  event.preventDefault();
-  setError("");
+    event.preventDefault();
+    setError("");
 
-  if (!form.name.trim()) return setError("Please enter your name.");
-  if (!form.attendance) return setError("Please tell us whether you can attend.");
-  if (EVENT.requireInviteCode && !form.inviteCode.trim()) {
-    return setError("Please enter your invitation code.");
-  }
-
-  setSubmitting(true);
-
-  const payload = {
-    name: form.name.trim(),
-    email: form.email.trim(),
-    attendance: form.attendance,
-    inviteCode: form.inviteCode.trim(),
-    message: form.message.trim(),
-    // Clear conditional fields if attendance is 'no'
-    guests: form.attendance === "yes" ? guestCount : 0,
-    guestNames: form.attendance === "yes" && guestCount > 1 ? form.guestNames.trim() : "",
-    meal: form.attendance === "yes" ? form.meal : "",
-    dietary: form.attendance === "yes" ? form.dietary.trim() : "",
-    submittedAt: new Date().toISOString()
-  };
-
-  try {
-    if (EVENT.rsvpEndpoint === "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") {
-      // Demo mode: allows you to preview the site before connecting a backend.
-      await new Promise((resolve) => setTimeout(resolve, 700));
-      console.log("RSVP demo submission:", payload);
-      setSubmitted(true);
-    } else {
-      // Send standard POST request without 'no-cors'
-      const response = await fetch(EVENT.rsvpEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        setSubmitted(true);
-      } else {
-        // Set error message directly from Google Apps Script response
-        setError(result.message || "Invalid invitation code. Please try again.");
-      }
+    if (!form.name.trim()) return setError("Please enter your name.");
+    if (!form.attendance) return setError("Please tell us whether you can attend.");
+    if (EVENT.requireInviteCode && !form.inviteCode.trim()) {
+      return setError("Please enter your invitation code.");
     }
-  } catch {
-    setError("Something went wrong while sending your RSVP. Please try again.");
-  } finally {
-    setSubmitting(false);
-  }
-}
 
+    setSubmitting(true);
+
+    const payload = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      attendance: form.attendance,
+      inviteCode: form.inviteCode.trim(),
+      message: form.message.trim(),
+      guests: form.attendance === "yes" ? guestCount : 0,
+      guestNames: form.attendance === "yes" && guestCount > 1 ? form.guestNames.trim() : "",
+      meal: form.attendance === "yes" ? form.meal : "",
+      dietary: form.attendance === "yes" ? form.dietary.trim() : "",
+      submittedAt: new Date().toISOString()
+    };
+
+    try {
+      if (EVENT.rsvpEndpoint === "PASTE_GOOGLE_APPS_SCRIPT_URL_HERE") {
+        await new Promise((resolve) => setTimeout(resolve, 700));
+        console.log("RSVP demo submission:", payload);
+      } else {
+        const response = await fetch(EVENT.rsvpEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          setError(result.message || "Invalid invitation code. Please try again.");
+          setSubmitting(false);
+          return;
+        }
+      }
+
+      // Store form data locally to prevent re-submission
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(form));
+      setSavedRsvp(form);
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong while sending your RSVP. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  // --- SUBMITTED STATE VIEW ---
   if (submitted) {
+    const displayData = savedRsvp || form;
+    const isAttending = displayData.attendance === "yes";
+
     return (
-      <main className="page">
-        <section className="card success-card">
-          <div className="success-icon"><Check size={28} /></div>
-          <p className="eyebrow">RSVP received</p>
-          <h1>Thank you, {form.name.split(" ")[0]}!</h1>
-          <p className="lead">
-            {form.attendance === "yes"
-              ? "We can't wait to celebrate with you."
-              : "We're sorry you can't make it, but thank you for letting us know."}
-          </p>
-          <button className="button secondary" onClick={() => {
-            setSubmitted(false);
-            setForm(initialForm);
-          }}>
-            Submit another RSVP
-          </button>
+      <main>
+        <section className="hero">
+          {EVENT.heroImage && <img className="hero-image" src={EVENT.heroImage} alt="" />}
+          <div className="hero-overlay" />
+          <div className="hero-content">
+            <p className="eyebrow">Save the date</p>
+            <h1>{EVENT.couple}</h1>
+            <div className="heart"><Heart size={18} fill="currentColor" /></div>
+            <p className="hero-title">{EVENT.title}</p>
+            <p className="hero-date">{EVENT.date}</p>
+          </div>
         </section>
+
+        <section className="page content">
+          <div className="details">
+            <div><CalendarDays /><span><b>{EVENT.date}</b><small>{EVENT.rsvpDeadline && `RSVP by ${EVENT.rsvpDeadline}`}</small></span></div>
+            <div><Clock3 /><span><b>{EVENT.time}</b><small>Ceremony & celebration</small></span></div>
+          </div>
+
+          <div className="card success-card">
+            <div className="success-icon"><Check size={28} /></div>
+            <p className="eyebrow">RSVP Received</p>
+            <h1>Thank you, {displayData.name.split(" ")[0]}!</h1>
+            <p className="lead">
+              {isAttending
+                ? "We have received your RSVP and can't wait to celebrate with you."
+                : "We're sorry you can't make it, but thank you for letting us know."}
+            </p>
+
+            <div className="rsvp-summary">
+              <h3>Your Response Details:</h3>
+              <p><strong>Name:</strong> {displayData.name}</p>
+              {displayData.email && <p><strong>Email:</strong> {displayData.email}</p>}
+              <p><strong>Attending:</strong> {isAttending ? "Yes" : "No"}</p>
+              
+              {isAttending && (
+                <>
+                  <p><strong>Guests:</strong> {displayData.guests}</p>
+                  {displayData.guestNames && <p><strong>Additional Guests:</strong> {displayData.guestNames}</p>}
+                  {displayData.meal && <p><strong>Meal Choice:</strong> {displayData.meal}</p>}
+                  {displayData.dietary && <p><strong>Dietary Restrictions:</strong> {displayData.dietary}</p>}
+                </>
+              )}
+              {displayData.message && <p><strong>Message:</strong> {displayData.message}</p>}
+            </div>
+
+            <div className="edit-notice">
+              <Edit3 size={18} />
+              <span>Need to change your response? Please contact the hosts directly.</span>
+            </div>
+          </div>
+        </section>
+
+        <footer>Made with love · {EVENT.couple}</footer>
       </main>
     );
   }
 
+  // --- FORM INPUT VIEW ---
   return (
     <main>
       <section className="hero">
@@ -220,7 +279,6 @@ function App() {
             {submitting ? "Sending..." : "Send RSVP"}
           </button>
         </form>
-
       </section>
 
       <footer>Made with love · {EVENT.couple}</footer>
