@@ -130,7 +130,7 @@ function App() {
             <p className="eyebrow">Save the date</p>
             <h1>{EVENT.title}</h1>
             <div className="heart"><Heart size={18} fill="currentColor" /></div>
-            <p className="hero-title">Event.couple</p>
+            <p className="hero-title">{EVENT.couple}</p>
             <p className="hero-date">{EVENT.date}</p>
           </div>
         </section>
