@@ -30,7 +30,7 @@ button { cursor: pointer; }
 
 .page { width:min(760px, calc(100% - 32px)); margin:0 auto; }
 .content { padding:55px 0 80px; }
-.details { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:70px; }
+.details { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-bottom:70px; }
 .details > div { display:flex; gap:12px; align-items:flex-start; }
 .details svg { width:20px; min-width:20px; margin-top:2px; }
 .details span { display:flex; flex-direction:column; gap:5px; }
