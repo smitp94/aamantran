@@ -128,9 +128,9 @@ function App() {
           <div className="hero-overlay" />
           <div className="hero-content">
             <p className="eyebrow">Save the date</p>
-            <h1>{EVENT.couple}</h1>
+            <h1>{EVENT.title}</h1>
             <div className="heart"><Heart size={18} fill="currentColor" /></div>
-            <p className="hero-title">{EVENT.title}</p>
+            <p className="hero-title">Smit ❤️ Divya</p>
             <p className="hero-date">{EVENT.date}</p>
           </div>
         </section>
