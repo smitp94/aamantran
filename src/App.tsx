@@ -56,8 +56,16 @@ function App() {
   setSubmitting(true);
 
   const payload = {
-    ...form,
+    name: form.name.trim(),
+    email: form.email.trim(),
+    attendance: form.attendance,
+    inviteCode: form.inviteCode.trim(),
+    message: form.message.trim(),
+    // Clear conditional fields if attendance is 'no'
     guests: form.attendance === "yes" ? guestCount : 0,
+    guestNames: form.attendance === "yes" && guestCount > 1 ? form.guestNames.trim() : "",
+    meal: form.attendance === "yes" ? form.meal : "",
+    dietary: form.attendance === "yes" ? form.dietary.trim() : "",
     submittedAt: new Date().toISOString()
   };
 
