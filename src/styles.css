@@ -76,6 +76,9 @@ fieldset { border:0; padding:0; margin:0 0 25px; }
 .success-icon { width:58px; height:58px; margin:0 auto 20px; display:grid; place-items:center; border-radius:50%; background:#eee7df; }
 .success-card h1 { font-size:55px; margin:0 0 12px; }
 .lead { color:#6e6963; line-height:1.7; }
+.registry-link { display:inline-flex; align-items:center; justify-content:center; gap:9px; color:#5d5147; font-size:14px; font-weight:600; text-decoration:none; border:1px solid #dcd5cd; border-radius:10px; padding:12px 18px; margin:8px 0 4px; transition:.2s; }
+.registry-link:hover { background:#f4eee7; border-color:#9d8c7c; }
+.registry-link-form { display:flex; width:fit-content; margin:-8px auto 28px; }
 footer { text-align:center; padding:30px 20px; border-top:1px solid #e7e0d8; color:#8a8580; font-size:12px; }
 
 .rsvp-summary {

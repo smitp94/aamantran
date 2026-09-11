@@ -1,5 +1,5 @@
 import { FormEvent, useMemo, useState, useEffect } from "react";
-import { CalendarDays, Check, Clock3, Heart, Users, Edit3 } from "lucide-react";
+import { CalendarDays, Check, Clock3, Gift, Heart, Users, Edit3 } from "lucide-react";
 import { EVENT, MEAL_OPTIONS } from "./config";
 
 type Attendance = "yes" | "no" | "";
@@ -159,6 +159,16 @@ function App() {
                 : "We're sorry you can't make it, but thank you for letting us know."}
             </p>
 
+            <a
+              className="registry-link"
+              href={EVENT.registryUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Gift size={18} aria-hidden="true" />
+              View our baby registry
+            </a>
+
             <div className="rsvp-summary">
               <h3>Your Response Details:</h3>
               <p><strong>Name:</strong> {displayData.name}</p>
@@ -219,6 +229,16 @@ function App() {
           <h2>{savedRsvp ? "Update your RSVP" : "Kindly RSVP below"}</h2>
           <p>We would love to celebrate this special day with you. Please submit one RSVP per invitation.</p>
         </div>
+
+        <a
+          className="registry-link registry-link-form"
+          href={EVENT.registryUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Gift size={18} aria-hidden="true" />
+          View our baby registry
+        </a>
 
         <form className="card form-card" onSubmit={submitRsvp}>
           <div className="field">

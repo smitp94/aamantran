@@ -7,6 +7,7 @@ export const EVENT = {
   address: "Gardena, CA",
   mapsUrl: "",
   rsvpDeadline: "September 25, 2026",
+  registryUrl: "https://www.amazon.com/baby-reg/divya-patel-december-2026-lakewood/3IE5M217NG2RG",
 
   // Paste your deployed Google Apps Script Web App URL here.
   rsvpEndpoint: "https://script.google.com/macros/s/AKfycbzd4chqUy1PwOaSwv_2QV0_u-H5sFu-HgYCm9iQKC8OgVIYCQWBAnvsVCaEqLAwDA-Rkw/exec",
