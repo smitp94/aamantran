@@ -3,11 +3,11 @@
 :root {
   font-family: "DM Sans", system-ui, sans-serif;
   color: #302d2a;
-  background: #edf3ea;
+  background: #fbf8f3;
   font-synthesis: none;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: #edf3ea; }
+body { margin: 0; background: #fbf8f3; }
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 
@@ -72,16 +72,8 @@ fieldset { border:0; padding:0; margin:0 0 25px; }
 .venue h3 { font-size:26px; margin:0 0 2px; }
 .venue p { margin:0 0 8px; color:#777; font-size:13px; }
 .venue a { color:#5d5147; font-size:13px; font-weight:600; }
-.success-card { text-align:center; margin:80px auto; padding:60px 35px; max-width:600px; animation:success-card-in .7s cubic-bezier(.22, 1, .36, 1) both; }
-.success-icon { width:58px; height:58px; margin:0 auto 20px; display:grid; place-items:center; border-radius:50%; background:#eee7df; animation:success-icon-pop .65s .2s cubic-bezier(.34, 1.56, .64, 1) both; }
-.celebration-dots { display:flex; justify-content:center; gap:9px; height:11px; margin:-8px 0 18px; }
-.celebration-dots span { width:7px; height:7px; border-radius:50%; background:#c6ad91; animation:celebration-dot 1.1s ease-in-out infinite; }
-.celebration-dots span:nth-child(2) { animation-delay:.14s; background:#b9c7b4; }
-.celebration-dots span:nth-child(3) { animation-delay:.28s; background:#d7b5b0; }
-@keyframes success-card-in { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
-@keyframes success-icon-pop { from { opacity:0; transform:scale(.45) rotate(-12deg); } to { opacity:1; transform:scale(1) rotate(0); } }
-@keyframes celebration-dot { 0%, 100% { transform:translateY(0); opacity:.55; } 50% { transform:translateY(-7px); opacity:1; } }
-@media (prefers-reduced-motion: reduce) { .success-card, .success-icon, .celebration-dots span { animation:none; } }
+.success-card { text-align:center; margin:80px auto; padding:60px 35px; max-width:600px; }
+.success-icon { width:58px; height:58px; margin:0 auto 20px; display:grid; place-items:center; border-radius:50%; background:#eee7df; }
 .success-card h1 { font-size:55px; margin:0 0 12px; }
 .lead { color:#6e6963; line-height:1.7; }
 .registry-link { display:inline-flex; align-items:center; justify-content:center; gap:9px; color:#5d5147; font-size:14px; font-weight:600; text-decoration:none; border:1px solid #dcd5cd; border-radius:10px; padding:12px 18px; margin:8px 0 4px; transition:.2s; }
