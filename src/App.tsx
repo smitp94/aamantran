@@ -151,6 +151,9 @@ function App() {
 
           <div className="card success-card">
             <div className="success-icon"><Check size={28} /></div>
+            <div className="celebration-dots" aria-hidden="true">
+              <span /><span /><span />
+            </div>
             <p className="eyebrow">RSVP Received</p>
             <h1>Thank you, {displayData.name.split(" ")[0]}!</h1>
             <p className="lead">
