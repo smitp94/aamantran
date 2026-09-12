@@ -10,7 +10,7 @@ export const EVENT = {
   registryUrl: "https://www.amazon.com/baby-reg/divya-patel-december-2026-lakewood/3IE5M217NG2RG",
 
   // Paste your deployed Google Apps Script Web App URL here.
-  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbzd4chqUy1PwOaSwv_2QV0_u-H5sFu-HgYCm9iQKC8OgVIYCQWBAnvsVCaEqLAwDA-Rkw/exec",
+  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbwB_s7ZJyYDEtf49Blkjj95yeMbOTfZeyw-e5f23it4BXLNDm9Jb8A80NUfoO5SJn4E6w/exec",
 
   // Optional. Set to true if you want guests to enter an invitation code.
   requireInviteCode: true,

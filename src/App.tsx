@@ -73,6 +73,7 @@ function App() {
     setError("");
 
     if (!form.name.trim()) return setError("Please enter your name.");
+    if (!form.email.trim()) return setError("Please enter your email address.");
     if (!form.attendance) return setError("Please tell us whether you can attend.");
     if (EVENT.requireInviteCode && !form.inviteCode.trim()) {
       return setError("Please enter your invitation code.");
@@ -247,8 +248,8 @@ function App() {
           </div>
 
           <div className="field">
-            <label htmlFor="email">Email <small>(optional)</small></label>
-            <input id="email" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" autoComplete="email" />
+            <label htmlFor="email">Email <span>*</span></label>
+            <input id="email" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" autoComplete="email" required />
           </div>
 
           {EVENT.requireInviteCode && (
