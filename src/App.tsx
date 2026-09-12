@@ -287,14 +287,6 @@ function App() {
               )}
 
               <div className="field">
-                <label htmlFor="meal">Meal preference</label>
-                <select id="meal" value={form.meal} onChange={(e) => update("meal", e.target.value)}>
-                  <option value="">Select one</option>
-                  {MEAL_OPTIONS.map((meal) => <option key={meal}>{meal}</option>)}
-                </select>
-              </div>
-
-              <div className="field">
                 <label htmlFor="dietary">Dietary restrictions <small>(optional)</small></label>
                 <input id="dietary" value={form.dietary} onChange={(e) => update("dietary", e.target.value)} placeholder="Allergies or dietary requirements" />
               </div>
